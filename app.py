@@ -15,22 +15,26 @@ class ParaphraseModule(dspy.Module):
     def forward(self, text):
         return self.generate_paraphrase(text=text)
 
+paraphrase_compiled = None
+
 # Define the Gradio app
 def paraphrase_text(text, api_key):
-    # Configure the LM with the provided API key
-    llama = dspy.GROQ(model='mixtral-8x7b-32768', api_key=api_key, max_tokens=16384)
-    dspy.settings.configure(lm=llama)
+    global paraphrase_compiled
+    if paraphrase_compiled is None:
+        # Configure the LM with the provided API key
+        llama = dspy.GROQ(model='mixtral-8x7b-32768', api_key=api_key, max_tokens=16384)
+        dspy.settings.configure(lm=llama)
 
-    # Compile the paraphrasing module
-    train_examples = [
-        ("This is a sample sentence to be paraphrased.", "This sentence is an example that needs to be rephrased."),
-        ("The quick brown fox jumps over the lazy dog.", "A fast, brown fox leaps over a sluggish dog."),
-        ("Artificial intelligence is transforming technology.", "AI is revolutionizing tech."),
-    ]
-    train = [dspy.Example(text=text, answer=paraphrased_text).with_inputs('text') for text, paraphrased_text in train_examples]
-    metric_EM = dspy.evaluate.answer_exact_match
-    teleprompter = BootstrapFewShot(metric=metric_EM, max_bootstrapped_demos=2)
-    paraphrase_compiled = teleprompter.compile(ParaphraseModule(), trainset=train)
+        # Compile the paraphrasing module
+        train_examples = [
+            ("This is a sample sentence to be paraphrased.", "This sentence is an example that needs to be rephrased."),
+            ("The quick brown fox jumps over the lazy dog.", "A fast, brown fox leaps over a sluggish dog."),
+            ("Artificial intelligence is transforming technology.", "AI is revolutionizing tech."),
+        ]
+        train = [dspy.Example(text=text, answer=paraphrased_text).with_inputs('text') for text, paraphrased_text in train_examples]
+        metric_EM = dspy.evaluate.answer_exact_match
+        teleprompter = BootstrapFewShot(metric=metric_EM, max_bootstrapped_demos=2)
+        paraphrase_compiled = teleprompter.compile(ParaphraseModule(), trainset=train)
 
     # Generate the paraphrased text
     paraphrased_text = paraphrase_compiled(text)
