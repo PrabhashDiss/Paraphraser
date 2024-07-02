@@ -41,7 +41,7 @@ def paraphrase_text(text, api_key):
 
     # Generate the paraphrased text
     paraphrased_text = paraphrase_compiled(text)
-    logger.info(f"Paraphrased text:\n{paraphrased_text}")
+    logger.info(f"Paraphrased Text:\n{paraphrased_text}")
     return paraphrased_text.paraphrased_text
 
 # Create Gradio interface
