@@ -27,9 +27,12 @@ def paraphrase_text(text, api_key):
 
         # Compile the paraphrasing module
         train_examples = [
-            ("This is a sample sentence to be paraphrased.", "This sentence is an example that needs to be rephrased."),
-            ("The quick brown fox jumps over the lazy dog.", "A fast, brown fox leaps over a sluggish dog."),
-            ("Artificial intelligence is transforming technology.", "AI is revolutionizing tech."),
+            ("William Shakespeare was born in Stratford-on-Avon in April (probably April 23), 1564. His father was a citizen of some prominence who became an alderman and bailiff, but who later suffered financial reverses. Shakespeare presumably attended the Stratford grammar school, where he could have acquired a respectable knowledge of Latin, but he did not proceed to Oxford or Cambridge. There are legends about Shakespeare's youth but no documented facts.",
+            "William Shakespeare was born in 1564 in Stratford-on-Avon. His father, a respected alderman, and bailiff was an affluent community member but later lost his financial security. Experts suspect that Shakespeare went to the Stratford grammar school where he probably obtained a command of the Latin language, however, since there are no documented facts about his childhood, scholars rely on rumors and stories believed to be historically accurate. They do know that he did not continue his education at Oxford or Cambridge."),
+            ("Exercise can help a lot in alleviating stress - that is a known fact. Exercise is a good way of reducing stress, and cardiovascular exercise is recommended for about 15 to 30 minutes, thrice or four times a week. Several studies have indicated the effects of exercise in handling stress. The activity can release endorphins to the bloodstream.",
+            "Exercise is a good way to get rid of stress. It is also a perfect way of lowering stress levels, while cardiovascular exercises that can be done three or four times a week for about 15 to 30 minutes is highly suggested. Research shows that there are positive effects of exercise in dealing with stress. It can help in releasing endorphins in the body."),
+            ("Dogs can provide great assistance to both children and elderly people in their daily activities. Since dogs are active pets, they can also prove to be the perfect buddies during exercise. There are different types of dogs that you can choose from to make as pets.",
+            "Dogs offer help to the elderly and children in their daily life. Dogs are active pets, providing to be great exercise buddies. There are various breeds of dogs that you can select from for your pets."),
         ]
         train = [dspy.Example(text=text, answer=paraphrased_text).with_inputs('text') for text, paraphrased_text in train_examples]
         metric_EM = dspy.evaluate.answer_exact_match
