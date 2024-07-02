@@ -43,7 +43,8 @@ interface = gr.Interface(
     inputs=[gr.Textbox(label="Input Text"), gr.Textbox(label="GROQ API Key")],
     outputs=gr.Textbox(label="Paraphrased Text"),
     title="Paraphrasing Tool",
-    description="Enter text to be paraphrased and your GROQ API key."
+    description="Enter text to be paraphrased and your GROQ API key.",
+    allow_flagging="never"
 )
 
 # Launch the Gradio app
