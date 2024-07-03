@@ -8,6 +8,7 @@ from loguru import logger
 
 # Define a dspy.Signature for the paraphrase module
 class ParaphraseModule(dspy.Signature):
+    """Given a text, paraphrase it as long as the given text."""
     text = dspy.InputField()
     paraphrased_text = dspy.OutputField(desc="The paraphrased text.")
 
